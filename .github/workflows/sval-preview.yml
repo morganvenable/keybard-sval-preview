@@ -40,6 +40,9 @@ jobs:
       - run: npx tsc && npx vite build --mode production-check
         working-directory: production-check-source
         env:
+          # Served from the root of keybard.svalboard.com; overrides the pinned
+          # source's .env.production-check, which predates the custom domain.
+          VITE_BASE_PATH: /production-check/
           GIT_BRANCH: fix/sval-preview-connection-guard
           GIT_SHA: a51fe10184cb0d934f8925f6d9fe63aab068c330
       - run: mv production-check-source/dist dist/production-check

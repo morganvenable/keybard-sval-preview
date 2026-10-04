@@ -12,7 +12,7 @@ npm ci
 npm run dev:sval-preview
 ```
 
-Open http://localhost:5176/keybard-sval-preview/ in a WebHID-capable browser.
+Open http://localhost:5176/ in a WebHID-capable browser.
 Alternatively run `npm run build:sval-preview` then
 `npm run preview -- --mode sval-preview --host 127.0.0.1 --port 5176 --strictPort`.
 
@@ -29,9 +29,17 @@ as part of preparing this branch.
 Use a separate repository, `morganvenable/keybard-sval-preview`, with GitHub Pages
 configured to use GitHub Actions. Push this branch there as `cleanup/sval-naming`.
 The included Sval preview workflow builds/tests and deploys only to that exact
-repository and branch. Its expected URL is:
+repository and branch. It is served at:
 
-https://morganvenable.github.io/keybard-sval-preview/
+https://keybard.svalboard.com/
+
+through GitHub Pages with a custom domain: a `keybard` CNAME record on
+svalboard.com pointing at `morganvenable.github.io`, and the custom domain set in
+the repository's Pages settings (no CNAME file: Actions deployments ignore it).
+The app is built for the domain's root (`VITE_BASE_PATH=/`), so the old
+https://morganvenable.github.io/keybard-sval-preview/ address redirects to it.
+Browser data (settings, saved layouts, WebHID device grants) belongs to an origin,
+so the move to the new domain starts each browser fresh there.
 
 Do not run a production Pages deployment to publish a preview. A repository's
 Pages deployment replaces that repository's site. In `morganvenable/keybard-ng`,
@@ -59,7 +67,8 @@ require restoring a backup, depending on which firmware/storage layout is used.
 ## Production compatibility notice test
 
 The preview deployment also publishes a separately built production guard at
-https://morganvenable.github.io/keybard-sval-preview/production-check/ .
+https://keybard.svalboard.com/production-check/ (built with
+`VITE_BASE_PATH=/production-check/`, set in the workflow).
 Connect renamed Sval firmware there to test the compatibility notice. Its inline
 “here” link opens the working preview at the site's root. The test app uses
 `keybard-production-check:` browser storage, separate from both other apps.
